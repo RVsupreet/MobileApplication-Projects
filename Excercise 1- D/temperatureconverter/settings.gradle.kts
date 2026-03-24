@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "temperatureconverter"
 include(":app")
- 
+include(":app")
