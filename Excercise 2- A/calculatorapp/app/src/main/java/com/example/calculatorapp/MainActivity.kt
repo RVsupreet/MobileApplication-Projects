@@ -1,4 +1,4 @@
-pacom.example.calculatorappckage
+package com.example.calculatorapp
 
 import android.os.Bundle
 import android.widget.*
@@ -6,60 +6,52 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var etNum1: EditText
-    private lateinit var etNum2: EditText
-    private lateinit var tvResult: TextView
-
-    private lateinit var btnAdd: Button
-    private lateinit var btnSub: Button
-    private lateinit var btnMul: Button
-    private lateinit var btnDiv: Button
+    private lateinit var value1: EditText
+    private lateinit var value2: EditText
+    private lateinit var result: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        etNum1 = findViewById(R.id.etNum1)
-        etNum2 = findViewById(R.id.etNum2)
-        tvResult = findViewById(R.id.tvResult)
+        value1 = findViewById(R.id.etValue1)
+        value2 = findViewById(R.id.etValue2)
+        result = findViewById(R.id.tvResult)
 
-        btnAdd = findViewById(R.id.btnAdd)
-        btnSub = findViewById(R.id.btnSub)
-        btnMul = findViewById(R.id.btnMul)
-        btnDiv = findViewById(R.id.btnDiv)
-
-        btnAdd.setOnClickListener { calculate("+") }
-        btnSub.setOnClickListener { calculate("-") }
-        btnMul.setOnClickListener { calculate("*") }
-        btnDiv.setOnClickListener { calculate("/") }
+        findViewById<Button>(R.id.btnAdd).setOnClickListener { calculate('+') }
+        findViewById<Button>(R.id.btnSub).setOnClickListener { calculate('-') }
+        findViewById<Button>(R.id.btnMul).setOnClickListener { calculate('*') }
+        findViewById<Button>(R.id.btnDiv).setOnClickListener { calculate('/') }
+        findViewById<Button>(R.id.btnMod).setOnClickListener { calculate('%') }
     }
 
-    private fun calculate(op: String) {
-        val n1Str = etNum1.text.toString()
-        val n2Str = etNum2.text.toString()
+    private fun calculate(op: Char) {
+        val num1Str = value1.text.toString()
+        val num2Str = value2.text.toString()
 
-        if (n1Str.isEmpty() || n2Str.isEmpty()) {
-            tvResult.text = "Enter both numbers"
+        if (num1Str.isEmpty() || num2Str.isEmpty()) {
+            Toast.makeText(this, "Enter both values", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val n1 = n1Str.toDouble()
-        val n2 = n2Str.toDouble()
+        val num1 = num1Str.toDouble()
+        val num2 = num2Str.toDouble()
 
-        val result = when (op) {
-            "+" -> n1 + n2
-            "-" -> n1 - n2
-            "*" -> n1 * n2
-            "/" -> {
-                if (n2 == 0.0) {
-                    tvResult.text = "Cannot divide by zero"
+        val res = when (op) {
+            '+' -> num1 + num2
+            '-' -> num1 - num2
+            '*' -> num1 * num2
+            '/' -> {
+                if (num2 == 0.0) {
+                    Toast.makeText(this, "Cannot divide by zero", Toast.LENGTH_SHORT).show()
                     return
                 }
-                n1 / n2
+                num1 / num2
             }
+            '%' -> num1 % num2
             else -> 0.0
         }
 
-        tvResult.text = "Result: $result"
+        result.text = res.toString()
     }
 }
